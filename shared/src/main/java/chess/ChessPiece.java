@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents a single chess piece
@@ -35,9 +36,7 @@ public class ChessPiece {
     /**
      * @return which type of chess piece this piece is
      */
-    public PieceType getPieceType() {
-        throw new RuntimeException("Not implemented");
-    }
+    public PieceType getPieceType() { throw new RuntimeException("Not implemented");}
 
     /**
      * Calculates all the positions a chess piece can move to
@@ -47,6 +46,6 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        return List.of();
     }
 }
