@@ -2,6 +2,7 @@ package chess;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -17,6 +18,51 @@ public class ChessPiece {
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceColor = pieceColor;
         this.type = type;
+    }
+
+    private void calculateMovesInDirection(ChessBoard board, ChessPosition startPosition, int rowOffset, int colOffset, boolean isSliding, Collection<ChessMove> validMoves){
+        int currentRow = startPosition.getRow() + rowOffset;
+        int currentCol = startPosition.getColumn() + colOffset;
+
+        while (currentRow >= 1 && currentRow <= 8 && currentCol >= 1 && currentCol <= 8){
+            ChessPosition newPositon = new ChessPosition(currentRow, currentCol);
+            ChessPiece pieceAtDestination = board.getPiece(newPositon);
+
+            if (pieceAtDestination == null){
+                validMoves.add(new ChessMove(startPosition, newPositon, null));
+
+            }else{
+                if (pieceAtDestination.getTeamColor() != this.getTeamColor()){
+                    validMoves.add(new ChessMove(startPosition, newPositon, null));
+                }
+                break;
+
+            }
+
+            if (!isSliding){
+                break;
+            }
+
+            currentRow += rowOffset;
+            currentCol += colOffset;
+
+
+        }
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessPiece that = (ChessPiece) o;
+        return pieceColor == that.pieceColor && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceColor, type);
     }
 
     /**
