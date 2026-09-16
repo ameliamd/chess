@@ -104,6 +104,8 @@ public class ChessPiece {
         switch (this.getPieceType()) {
             case KING:
                 return kingMoves(board, myPosition);
+            case QUEEN:
+                return queenMoves(board, myPosition);
         }
     }
 
@@ -119,6 +121,45 @@ public class ChessPiece {
         Move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
         Move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
 
+        return moves;
+
+    }
+
+    private Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition myPosition) {
+        Collection<ChessMove> moves = new ArrayList<>();
+        boolean isSliding = true;
+        Move(board, myPosition, 1, 0, isSliding, moves); //Up
+        Move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
+        Move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
+        Move(board, myPosition, 0, 1, isSliding, moves); //Right
+        Move(board, myPosition, 0, -1, isSliding, moves); //Left
+        Move(board, myPosition, -1, 0, isSliding, moves); //Down
+        Move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
+        Move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
+
+        return moves;
+
+    }
+
+    private Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition) {
+        Collection<ChessMove> moves = new ArrayList<>();
+        boolean isSliding = true;
+        Move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
+        Move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
+        Move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
+        Move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
+
+        return moves;
+
+    }
+
+    private Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition myPosition) {
+        Collection<ChessMove> moves = new ArrayList<>();
+        boolean isSliding = true;
+        Move(board, myPosition, 1, 0, isSliding, moves); //Up
+        Move(board, myPosition, 0, 1, isSliding, moves); //Right
+        Move(board, myPosition, 0, -1, isSliding, moves); //Left
+        Move(board, myPosition, -1, 0, isSliding, moves); //Down
         return moves;
 
     }
