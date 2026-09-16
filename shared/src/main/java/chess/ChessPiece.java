@@ -106,6 +106,16 @@ public class ChessPiece {
                 return kingMoves(board, myPosition);
             case QUEEN:
                 return queenMoves(board, myPosition);
+            case BISHOP:
+                return bishopMoves(board, myPosition);
+            case ROOK:
+                return rookMoves(board,myPosition);
+            case KNIGHT:
+                return knightMoves(board, myPosition);
+            case PAWN:
+                break;
+            default:
+                return new ArrayList<>();
         }
     }
 
@@ -160,6 +170,23 @@ public class ChessPiece {
         Move(board, myPosition, 0, 1, isSliding, moves); //Right
         Move(board, myPosition, 0, -1, isSliding, moves); //Left
         Move(board, myPosition, -1, 0, isSliding, moves); //Down
+        return moves;
+
+    }
+
+    private Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition) {
+        Collection<ChessMove> moves = new ArrayList<>();
+        boolean isSliding = false;
+        Move(board, myPosition, 2, 1, isSliding, moves); //Up 2, Right 1
+        Move(board, myPosition, 2, -1, isSliding, moves); //Up 2, Left 1
+        Move(board, myPosition, 1, 2, isSliding, moves); //Down 2, Right 1
+        Move(board, myPosition, 1, -2, isSliding, moves); //Down 2, Left 1
+
+        Move(board, myPosition, -2, 1, isSliding, moves); //Up 1, Right 2
+        Move(board, myPosition, -2, -1, isSliding, moves); //Up 1, Left 2
+        Move(board, myPosition, -1, 2, isSliding, moves); //Down 1, Right 2
+        Move(board, myPosition, -1, -2, isSliding, moves); //Down 1, Left 2
+
         return moves;
 
     }
