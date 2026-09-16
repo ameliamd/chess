@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -20,26 +21,26 @@ public class ChessPiece {
         this.type = type;
     }
 
-    private void calculateMovesInDirection(ChessBoard board, ChessPosition startPosition, int rowOffset, int colOffset, boolean isSliding, Collection<ChessMove> validMoves){
+    private void Move(ChessBoard board, ChessPosition startPosition, int rowOffset, int colOffset, boolean isSliding, Collection<ChessMove> validMoves) {
         int currentRow = startPosition.getRow() + rowOffset;
         int currentCol = startPosition.getColumn() + colOffset;
 
-        while (currentRow >= 1 && currentRow <= 8 && currentCol >= 1 && currentCol <= 8){
-            ChessPosition newPositon = new ChessPosition(currentRow, currentCol);
-            ChessPiece pieceAtDestination = board.getPiece(newPositon);
+        while (currentRow >= 1 && currentRow <= 8 && currentCol >= 1 && currentCol <= 8) {
+            ChessPosition newPosition = new ChessPosition(currentRow, currentCol);
+            ChessPiece pieceAtDestination = board.getPiece(newPosition);
 
-            if (pieceAtDestination == null){
-                validMoves.add(new ChessMove(startPosition, newPositon, null));
+            if (pieceAtDestination == null) {
+                validMoves.add(new ChessMove(startPosition, newPosition, null));
 
-            }else{
-                if (pieceAtDestination.getTeamColor() != this.getTeamColor()){
-                    validMoves.add(new ChessMove(startPosition, newPositon, null));
+            } else {
+                if (pieceAtDestination.getTeamColor() != this.getTeamColor()) {
+                    validMoves.add(new ChessMove(startPosition, newPosition, null));
                 }
                 break;
 
             }
 
-            if (!isSliding){
+            if (!isSliding) {
                 break;
             }
 
@@ -99,10 +100,27 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        ChessPiece piece = board.getPiece(myPosition);
-        if (piece.getPieceType() == PieceType.BISHOP){
-            return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null));
+        Collection<ChessMove> moves = new ArrayList<>();
+        switch (this.getPieceType()) {
+            case KING:
+                return kingMoves(board, myPosition);
         }
-        return List.of();
     }
+
+    private Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition) {
+        Collection<ChessMove> moves = new ArrayList<>();
+        boolean isSliding = false;
+        Move(board, myPosition, 1, 0, isSliding, moves); //Up
+        Move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
+        Move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
+        Move(board, myPosition, 0, 1, isSliding, moves); //Right
+        Move(board, myPosition, 0, -1, isSliding, moves); //Left
+        Move(board, myPosition, -1, 0, isSliding, moves); //Down
+        Move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
+        Move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
+
+        return moves;
+
+    }
+
 }
