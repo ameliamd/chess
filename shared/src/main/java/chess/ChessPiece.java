@@ -191,4 +191,24 @@ public class ChessPiece {
 
     }
 
+    private void addPawnMove(ChessPosition start, ChessPosition end, int promoRow, Collection<ChessMove> moves){
+        if(end.getRow() == promoRow) {
+            moves.add(new ChessMove(start, end, PieceType.QUEEN));
+            moves.add(new ChessMove(start, end, PieceType.ROOK));
+            moves.add(new ChessMove(start, end, PieceType.BISHOP));
+            moves.add(new ChessMove(start, end, PieceType.KNIGHT));
+
+        }else{
+            moves.add(new ChessMove(start, end, null));
+        }
+    }
+
+    private Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition){
+        Collection<ChessMove> moves = new ArrayList<>();
+
+
+    }
+
+
+
 }
