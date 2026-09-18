@@ -113,7 +113,7 @@ public class ChessPiece {
             case KNIGHT:
                 return knightMoves(board, myPosition);
             case PAWN:
-                break;
+                return pawnMoves(board, myPosition);
             default:
                 return new ArrayList<>();
         }
@@ -205,9 +205,9 @@ public class ChessPiece {
 
     private Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition){
         Collection<ChessMove> moves = new ArrayList<>();
-        int direction = (this.getTeamColor() = ChessGame.TeamColor.WHITE) ? 1 : -1;
-        int startingRow = (this.getTeamColor() = ChessGame.TeamColor.WHITE) ? 2 : 7;
-        int promotionRow = (this.getTeamColor() = ChessGame.TeamColor.WHITE) ? 8 : 1;
+        int direction = (this.getTeamColor() == ChessGame.TeamColor.WHITE) ? 1 : -1;
+        int startingRow = (this.getTeamColor() == ChessGame.TeamColor.WHITE) ? 2 : 7;
+        int promotionRow = (this.getTeamColor() == ChessGame.TeamColor.WHITE) ? 8 : 1;
 
         int currentRow = myPosition.getRow();
         int currentCol = myPosition.getColumn();
@@ -225,6 +225,26 @@ public class ChessPiece {
                 }
             }
         }
+
+
+        if(nextRow >= 1 && nextRow <=8 && currentCol + 1 <= 8){
+            ChessPosition rightDiag = new ChessPosition(nextRow, currentCol +1);
+            ChessPiece rightPiece = board.getPiece(rightDiag);
+
+            if (rightPiece != null && rightPiece.getTeamColor() != this.getTeamColor()){
+                addPawnMove(myPosition, rightDiag, promotionRow, moves);
+            }
+        }
+
+        if(nextRow >= 1 && nextRow <=8 && currentCol + 1 >= 1){
+            ChessPosition leftDiag = new ChessPosition(nextRow, currentCol - 1);
+            ChessPiece leftPiece = board.getPiece(leftDiag);
+
+            if (leftPiece != null && leftPiece.getTeamColor() != this.getTeamColor()){
+                addPawnMove(myPosition, leftDiag, promotionRow, moves);
+            }
+        }
+
 
         return moves;
     }
