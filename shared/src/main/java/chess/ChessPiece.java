@@ -205,8 +205,28 @@ public class ChessPiece {
 
     private Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition){
         Collection<ChessMove> moves = new ArrayList<>();
+        int direction = (this.getTeamColor() = ChessGame.TeamColor.WHITE) ? 1 : -1;
+        int startingRow = (this.getTeamColor() = ChessGame.TeamColor.WHITE) ? 2 : 7;
+        int promotionRow = (this.getTeamColor() = ChessGame.TeamColor.WHITE) ? 8 : 1;
 
+        int currentRow = myPosition.getRow();
+        int currentCol = myPosition.getColumn();
 
+        int nextRow = currentRow + direction;
+        if(nextRow >= 1 && nextRow <= 8){
+            ChessPosition oneStep = new ChessPosition(nextRow, currentCol);
+            if(board.getPiece(oneStep) == null){
+                addPawnMove(myPosition, oneStep, promotionRow, moves);
+                if (currentRow == startingRow){
+                    ChessPosition twoStep = new ChessPosition(currentRow + (direction * 2), currentCol);
+                    if(board.getPiece(twoStep) == null){
+                        moves.add(new ChessMove(myPosition, twoStep, null));
+                    }
+                }
+            }
+        }
+
+        return moves;
     }
 
 
