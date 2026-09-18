@@ -236,7 +236,7 @@ public class ChessPiece {
             }
         }
 
-        if(nextRow >= 1 && nextRow <=8 && currentCol + 1 >= 1){
+        if(nextRow >= 1 && nextRow <=8 && currentCol - 1 >= 1){
             ChessPosition leftDiag = new ChessPosition(nextRow, currentCol - 1);
             ChessPiece leftPiece = board.getPiece(leftDiag);
 

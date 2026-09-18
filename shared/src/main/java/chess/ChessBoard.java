@@ -41,7 +41,32 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        throw new RuntimeException("Not implemented");
+        squares = new ChessPiece[8][8];
+
+        setupMajorPieces(ChessGame.TeamColor.WHITE, 1);
+        setupPawns(ChessGame.TeamColor.WHITE, 2);
+
+        setupMajorPieces(ChessGame.TeamColor.BLACK, 8);
+        setupPawns(ChessGame.TeamColor.BLACK, 7);
+
+    }
+
+    private void setupPawns(ChessGame.TeamColor color, int row){
+        for(int col = 1; col <= 8; col++){
+            addPiece( new ChessPosition(row, col), new ChessPiece(color, ChessPiece.PieceType.PAWN));
+        }
+    }
+
+    private void setupMajorPieces(ChessGame.TeamColor color, int row){
+        addPiece(new ChessPosition(row, 1), new ChessPiece(color, ChessPiece.PieceType.ROOK));
+        addPiece(new ChessPosition(row, 2), new ChessPiece(color, ChessPiece.PieceType.KNIGHT));
+        addPiece(new ChessPosition(row, 3), new ChessPiece(color, ChessPiece.PieceType.BISHOP));
+        addPiece(new ChessPosition(row, 4), new ChessPiece(color, ChessPiece.PieceType.QUEEN));
+        addPiece(new ChessPosition(row, 5), new ChessPiece(color, ChessPiece.PieceType.KING));
+        addPiece(new ChessPosition(row, 6), new ChessPiece(color, ChessPiece.PieceType.BISHOP));
+        addPiece(new ChessPosition(row, 7), new ChessPiece(color, ChessPiece.PieceType.KNIGHT));
+        addPiece(new ChessPosition(row, 8), new ChessPiece(color, ChessPiece.PieceType.ROOK));
+
     }
 
     public boolean isInBounds(int row, int col){
