@@ -93,6 +93,17 @@ public class ChessGame {
     }
 
     private ChessPosition findKingPosition(TeamColor teamColor) {
+        for(int row = 1; row <= 8; row ++){
+            for(int col = 1; col <= 8; col++){
+                ChessPosition pos = new ChessPosition(row, col);
+                ChessPiece piece = board.getPiece(pos);
+
+                if (piece != null && piece.getTeamColor() == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING){
+                    return pos;
+                }
+            }
+        }
+        return null;
     }
 
     /**
