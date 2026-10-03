@@ -113,6 +113,23 @@ public class ChessGame {
         } else {
             setTeamTurn(TeamColor.WHITE);
         }
+        //Castling
+        if(piece.getPieceType() == ChessPiece.PieceType.KING && Math.abs(move.getStartPosition().getColumn() - move.getEndPosition().getColumn()) == 2){
+            int row = move.getStartPosition().getRow();
+            if (move.getEndPosition().getColumn() == 7){
+                ChessPosition rookStart = new ChessPosition(row, 8);
+                ChessPosition rookEnd = new ChessPosition(row, 6);
+                ChessPiece rook = board.getPiece(rookStart);
+                board.addPiece(rookStart, null);
+                board.addPiece(rookEnd, rook);
+            } else if (move.getEndPosition().getColumn() == 3){
+                ChessPosition rookStart = new ChessPosition(row, 1);
+                ChessPosition rookEnd = new ChessPosition(row, 4);
+                ChessPiece rook = board.getPiece(rookStart);
+                board.addPiece(rookStart, null);
+                board.addPiece(rookEnd, rook);
+            }
+        }
     }
 
     /**
