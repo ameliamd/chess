@@ -132,37 +132,6 @@ public class ChessPiece {
         Move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
         Move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
 
-        //Castling
-        int row = myPosition.getRow();
-        int col = myPosition.getColumn();
-
-        if(col ==5){
-            ChessPosition kSide1 = new ChessPosition(row, 6);
-            ChessPosition kSide2 = new ChessPosition(row, 7);
-            ChessPosition kSideRookPos = new ChessPosition(row, 8);
-
-            if(board.getPiece(kSide1) == null && board.getPiece(kSide2) == null){
-                ChessPiece rook = board.getPiece(kSideRookPos);
-                if(rook != null && rook.getPieceType() == PieceType.ROOK && rook.getTeamColor() == this.getTeamColor()){
-                    moves.add(new ChessMove(myPosition, kSide2, null));
-                }
-            }
-
-            ChessPosition qSide1 = new ChessPosition(row, 4);
-            ChessPosition qSide2 = new ChessPosition(row, 3);
-            ChessPosition qSide3 = new ChessPosition(row, 2);
-            ChessPosition qSideRookPos = new ChessPosition(row, 1);
-
-            if(board.getPiece(qSide1) == null && board.getPiece (qSide2) == null && board.getPiece(qSide3) == null){
-                ChessPiece rook = board.getPiece(qSideRookPos);
-                if(rook != null && rook.getPieceType() == PieceType.ROOK && rook.getTeamColor() == this.getTeamColor()){
-                    moves.add(new ChessMove(myPosition, qSide2, null));
-                }
-            }
-
-
-        }
-
         return moves;
 
     }
