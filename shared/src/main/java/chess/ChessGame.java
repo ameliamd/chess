@@ -8,6 +8,7 @@ import java.util.Objects;
  * <p>
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
+ *
  */
 public class ChessGame {
     private ChessBoard board;
@@ -22,6 +23,7 @@ public class ChessGame {
 
     /**
      * @return Which team's turn it is
+     *
      */
     public TeamColor getTeamTurn() {
         return this.currentTurn;
@@ -31,6 +33,7 @@ public class ChessGame {
      * Sets which teams turn it is
      *
      * @param team the team whose turn it is
+     *
      */
     public void setTeamTurn(TeamColor team) {
         this.currentTurn = team;
