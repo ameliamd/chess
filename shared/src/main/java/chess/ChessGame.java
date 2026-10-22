@@ -38,6 +38,7 @@ public class ChessGame {
 
     /**
      * Enum identifying the 2 possible teams in a chess game
+     *
      */
     public enum TeamColor {
         WHITE,
@@ -50,6 +51,7 @@ public class ChessGame {
      * @param startPosition the piece to get valid moves for
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
+     *
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = board.getPiece(startPosition);
@@ -83,6 +85,7 @@ public class ChessGame {
      * Makes a move in the chess game
      *
      * @param move chess move to perform
+     *
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
