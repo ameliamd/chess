@@ -1,6 +1,11 @@
 package server;
 
+import dataaccess.GameDAO;
+import dataaccess.UserDAO;
+import handler.ClearHandler;
 import io.javalin.*;
+import service.ClearService;
+import dataaccess.*;
 
 public class Server {
 
@@ -15,6 +20,15 @@ public class Server {
 
     public int run(int desiredPort) {
         javalin.start(desiredPort);
+
+        UserDAO userDAO = new MemoryUserDAO();
+        GameDAO gameDAO = new MemoryGameDAO();
+        AuthDAO authDAO = new MemoryAuthDAO();
+
+        ClearService clearService = new ClearService(userDAO, gameDAO, authDAO);
+        ClearHandler clearHandler = new ClearHandler(clearService);
+
+        javalin.delete("/db", clearHandler);
         return javalin.port();
     }
 
