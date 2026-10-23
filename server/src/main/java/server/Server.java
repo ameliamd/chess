@@ -4,10 +4,12 @@ import dataaccess.GameDAO;
 import dataaccess.UserDAO;
 import handler.ClearHandler;
 import handler.LoginHandler;
+import handler.LogoutHandler;
 import io.javalin.*;
 import service.ClearService;
 import dataaccess.*;
 import service.LoginService;
+import service.LogoutService;
 
 public class Server {
 
@@ -37,6 +39,10 @@ public class Server {
         LoginHandler loginHandler = new LoginHandler(loginService);
 
         javalin.post("/session", loginHandler);
+
+        LogoutService logoutService = new LogoutService(authDAO);
+        LogoutHandler logoutHandler = new LogoutHandler(logoutService);
+        javalin.delete("/session", loginHandler);
 
         return javalin.port();
     }
