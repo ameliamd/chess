@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import model.AuthData;
 import model.UserData;
 import service.RegisterService;
+import io.javalin.http.Context;
+import io.javalin.http.Handler;
 
 public class RegisterHandler implements Handler {
     private final RegisterService service;
