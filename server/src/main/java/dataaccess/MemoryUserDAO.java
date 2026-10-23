@@ -1,5 +1,7 @@
 package dataaccess;
 import model.UserData;
+import org.eclipse.jetty.server.Authentication;
+
 import java.util.HashMap;
 
 public class MemoryUserDAO implements UserDAO{
@@ -8,5 +10,18 @@ public class MemoryUserDAO implements UserDAO{
     @Override
     public void clear(){
         users.clear();
+    }
+
+    @Override
+    public UserData getUser(String username){
+        return users.get(username);
+    }
+
+    @Override
+    public void createUser(UserData user) throws DataAccessException{
+        if(users.containsKey(user.username())){
+            throw new DataAccessException("already taken");
+        }
+        users.put(user.username(), user);
     }
 }
