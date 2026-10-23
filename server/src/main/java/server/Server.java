@@ -3,9 +3,11 @@ package server;
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
 import handler.ClearHandler;
+import handler.LoginHandler;
 import io.javalin.*;
 import service.ClearService;
 import dataaccess.*;
+import service.LoginService;
 
 public class Server {
 
@@ -29,6 +31,13 @@ public class Server {
         ClearHandler clearHandler = new ClearHandler(clearService);
 
         javalin.delete("/db", clearHandler);
+
+
+        LoginService loginService = new LoginService(userDAO, authDAO);
+        LoginHandler loginHandler = new LoginHandler(loginService);
+
+        javalin.post("/session", loginHandler);
+
         return javalin.port();
     }
 
