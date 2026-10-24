@@ -2,16 +2,10 @@ package server;
 
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
-import handler.ClearHandler;
-import handler.ListGamesHandler;
-import handler.LoginHandler;
-import handler.LogoutHandler;
+import handler.*;
 import io.javalin.*;
-import service.ClearService;
+import service.*;
 import dataaccess.*;
-import service.ListGamesService;
-import service.LoginService;
-import service.LogoutService;
 
 public class Server {
 
@@ -49,6 +43,10 @@ public class Server {
         ListGamesService listGamesService = new ListGamesService(authDAO, gameDAO);
         ListGamesHandler listGamesHandler = new ListGamesHandler(listGamesService);
         javalin.get("/game", listGamesHandler);
+
+        CreateGameService createGameService = new CreateGameService(authDAO, gameDAO);
+        CreateGameHandler createGameHandler = new CreateGameHandler(createGameService);
+        javalin.post("/game", createGameHandler);
 
         return javalin.port();
     }
