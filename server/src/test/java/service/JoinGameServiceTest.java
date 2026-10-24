@@ -1,4 +1,4 @@
-package serviceTests;
+package service;
 
 import dataaccess.*;
 import model.AuthData;
@@ -6,10 +6,6 @@ import model.CreateGameRequest;
 import model.JoinGameRequest;
 import model.UserData;
 import org.junit.jupiter.api.*;
-import service.CreateGameService;
-import service.JoinGameService;
-import service.LogoutService;
-import service.RegisterService;
 
 public class JoinGameServiceTest {
 

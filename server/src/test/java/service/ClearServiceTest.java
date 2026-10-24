@@ -1,9 +1,8 @@
-package serviceTests;
+package service;
 
 import dataaccess.*;
 import model.UserData;
 import org.junit.jupiter.api.*;
-import service.ClearService;
 
 public class ClearServiceTest {
 
