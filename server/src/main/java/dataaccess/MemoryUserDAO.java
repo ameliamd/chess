@@ -1,7 +1,5 @@
 package dataaccess;
 import model.UserData;
-import org.eclipse.jetty.server.Authentication;
-
 import java.util.HashMap;
 
 public class MemoryUserDAO implements UserDAO{
