@@ -3,11 +3,13 @@ package server;
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
 import handler.ClearHandler;
+import handler.ListGamesHandler;
 import handler.LoginHandler;
 import handler.LogoutHandler;
 import io.javalin.*;
 import service.ClearService;
 import dataaccess.*;
+import service.ListGamesService;
 import service.LoginService;
 import service.LogoutService;
 
@@ -43,6 +45,10 @@ public class Server {
         LogoutService logoutService = new LogoutService(authDAO);
         LogoutHandler logoutHandler = new LogoutHandler(logoutService);
         javalin.delete("/session", loginHandler);
+
+        ListGamesService listGamesService = new ListGamesService(authDAO, gameDAO);
+        ListGamesHandler listGamesHandler = new ListGamesHandler(listGamesService);
+        javalin.get("/game", listGamesHandler);
 
         return javalin.port();
     }
