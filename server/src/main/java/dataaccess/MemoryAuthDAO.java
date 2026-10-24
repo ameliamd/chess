@@ -12,7 +12,7 @@ public class MemoryAuthDAO implements AuthDAO{
 
     @Override
     public void createAuth(AuthData auth){
-        auths.put(auth.autToken(), auth);
+        auths.put(auth.authToken(), auth);
     }
     @Override
     public AuthData getAuth(String authToken){

@@ -17,8 +17,15 @@ public class RegisterService {
     }
 
     public AuthData register(UserData user) throws DataAccessException{
+        if(user.username() == null || user.password() == null || user.email() == null){
+            throw new DataAccessException("bad request");
+        }
+
+        userDAO.createUser(user);
+
         String token = UUID.randomUUID().toString();
         AuthData authData = new AuthData(token, user.username());
+        authDAO.createAuth(authData);
 
         return authData;
 
