@@ -22,7 +22,8 @@ public class ChessPiece {
 
     }
 
-    private void Move(ChessBoard board, ChessPosition startPosition, int rowOffset, int colOffset, boolean isSliding, Collection<ChessMove> validMoves) {
+    private void move(ChessBoard board, ChessPosition startPosition, int rowOffset,
+                      int colOffset, boolean isSliding, Collection<ChessMove> validMoves) {
         int currentRow = startPosition.getRow() + rowOffset;
         int currentCol = startPosition.getColumn() + colOffset;
 
@@ -123,14 +124,14 @@ public class ChessPiece {
     private Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = new ArrayList<>();
         boolean isSliding = false;
-        Move(board, myPosition, 1, 0, isSliding, moves); //Up
-        Move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
-        Move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
-        Move(board, myPosition, 0, 1, isSliding, moves); //Right
-        Move(board, myPosition, 0, -1, isSliding, moves); //Left
-        Move(board, myPosition, -1, 0, isSliding, moves); //Down
-        Move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
-        Move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
+        move(board, myPosition, 1, 0, isSliding, moves); //Up
+        move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
+        move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
+        move(board, myPosition, 0, 1, isSliding, moves); //Right
+        move(board, myPosition, 0, -1, isSliding, moves); //Left
+        move(board, myPosition, -1, 0, isSliding, moves); //Down
+        move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
+        move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
 
         return moves;
 
@@ -139,14 +140,14 @@ public class ChessPiece {
     private Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = new ArrayList<>();
         boolean isSliding = true;
-        Move(board, myPosition, 1, 0, isSliding, moves); //Up
-        Move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
-        Move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
-        Move(board, myPosition, 0, 1, isSliding, moves); //Right
-        Move(board, myPosition, 0, -1, isSliding, moves); //Left
-        Move(board, myPosition, -1, 0, isSliding, moves); //Down
-        Move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
-        Move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
+        move(board, myPosition, 1, 0, isSliding, moves); //Up
+        move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
+        move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
+        move(board, myPosition, 0, 1, isSliding, moves); //Right
+        move(board, myPosition, 0, -1, isSliding, moves); //Left
+        move(board, myPosition, -1, 0, isSliding, moves); //Down
+        move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
+        move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
 
         return moves;
 
@@ -155,10 +156,10 @@ public class ChessPiece {
     private Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = new ArrayList<>();
         boolean isSliding = true;
-        Move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
-        Move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
-        Move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
-        Move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
+        move(board, myPosition, 1, 1, isSliding, moves); //Up-Right
+        move(board, myPosition, 1, -1, isSliding, moves); //Up-Left
+        move(board, myPosition, -1, 1, isSliding, moves); //Down-Right
+        move(board, myPosition, -1, -1, isSliding, moves); //Down-Left
 
         return moves;
 
@@ -167,10 +168,10 @@ public class ChessPiece {
     private Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = new ArrayList<>();
         boolean isSliding = true;
-        Move(board, myPosition, 1, 0, isSliding, moves); //Up
-        Move(board, myPosition, 0, 1, isSliding, moves); //Right
-        Move(board, myPosition, 0, -1, isSliding, moves); //Left
-        Move(board, myPosition, -1, 0, isSliding, moves); //Down
+        move(board, myPosition, 1, 0, isSliding, moves); //Up
+        move(board, myPosition, 0, 1, isSliding, moves); //Right
+        move(board, myPosition, 0, -1, isSliding, moves); //Left
+        move(board, myPosition, -1, 0, isSliding, moves); //Down
         return moves;
 
     }
@@ -178,15 +179,15 @@ public class ChessPiece {
     private Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = new ArrayList<>();
         boolean isSliding = false;
-        Move(board, myPosition, 2, 1, isSliding, moves); //Up 2, Right 1
-        Move(board, myPosition, 2, -1, isSliding, moves); //Up 2, Left 1
-        Move(board, myPosition, 1, 2, isSliding, moves); //Down 2, Right 1
-        Move(board, myPosition, 1, -2, isSliding, moves); //Down 2, Left 1
+        move(board, myPosition, 2, 1, isSliding, moves); //Up 2, Right 1
+        move(board, myPosition, 2, -1, isSliding, moves); //Up 2, Left 1
+        move(board, myPosition, 1, 2, isSliding, moves); //Down 2, Right 1
+        move(board, myPosition, 1, -2, isSliding, moves); //Down 2, Left 1
 
-        Move(board, myPosition, -2, 1, isSliding, moves); //Up 1, Right 2
-        Move(board, myPosition, -2, -1, isSliding, moves); //Up 1, Left 2
-        Move(board, myPosition, -1, 2, isSliding, moves); //Down 1, Right 2
-        Move(board, myPosition, -1, -2, isSliding, moves); //Down 1, Left 2
+        move(board, myPosition, -2, 1, isSliding, moves); //Up 1, Right 2
+        move(board, myPosition, -2, -1, isSliding, moves); //Up 1, Left 2
+        move(board, myPosition, -1, 2, isSliding, moves); //Down 1, Right 2
+        move(board, myPosition, -1, -2, isSliding, moves); //Down 1, Left 2
 
         return moves;
 

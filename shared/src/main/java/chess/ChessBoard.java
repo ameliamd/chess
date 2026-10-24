@@ -69,9 +69,10 @@ public class ChessBoard {
 
     }
 
-    public boolean isInBounds(int row, int col){
+    /**public boolean isInBounds(int row, int col){
         return row >= 1 && row <=8 && col >= 1 && col <=8;
     }
+     **/
 
     @Override
     public boolean equals(Object o) {
