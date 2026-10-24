@@ -48,6 +48,10 @@ public class Server {
         CreateGameHandler createGameHandler = new CreateGameHandler(createGameService);
         javalin.post("/game", createGameHandler);
 
+        JoinGameService joinGameService = new JoinGameService(authDAO, gameDAO);
+        JoinGameHandler joinGameHandler = new JoinGameHandler(joinGameService);
+        javalin.put("/game", joinGameHandler);
+
         return javalin.port();
     }
 
