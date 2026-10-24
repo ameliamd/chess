@@ -140,9 +140,11 @@ public class ChessGame {
                 ChessPosition currentPos = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(currentPos);
                 
-                if (piece != null && piece.getTeamColor() != teamColor){
-                    Collection<ChessMove> opponentMoves = piece.pieceMoves(board, currentPos);
-                    
+                if (piece == null || piece.getTeamColor() == teamColor) {
+                    continue;
+                }
+
+                Collection<ChessMove> opponentMoves = piece.pieceMoves(board, currentPos);
                     for (ChessMove move : opponentMoves){
                         if(move.getEndPosition().equals(kingPosition)){
                             return true;
@@ -150,7 +152,7 @@ public class ChessGame {
                     }
                 }
             }
-        }
+
         return false;
     }
 
