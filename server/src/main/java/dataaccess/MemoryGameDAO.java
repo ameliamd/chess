@@ -16,4 +16,9 @@ public class MemoryGameDAO implements GameDAO{
     public Collection<GameData> listGames(){
         return games.values();
     }
+
+    @Override
+    public void createGame(GameData game){
+        games.put(game.gameID(), game);
+    }
 }
