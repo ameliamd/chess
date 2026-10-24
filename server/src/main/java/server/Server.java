@@ -15,6 +15,18 @@ public class Server {
         javalin = Javalin.create(config -> config.staticFiles.add("web"));
 
         // Register your endpoints and exception handlers here.
+        javalin.exception(DataAccessException.class, (ex, ctx) ->{
+            ctx.status(500);
+            if(ex.getMessage().contains("already taken")){
+                ctx.status(403);
+            } else if(ex.getMessage().contains("bad request")) {
+                ctx.status(400);
+            } else if(ex.getMessage().contains("unauthorized")) {
+                ctx.status(401);
+            }
+            var serializer = new com.google.gson.Gson();
+            ctx.result(serializer.toJson(java.util.Map.of("message", "Error: " + ex.getMessage())));
+                });
 
     }
 
@@ -30,6 +42,10 @@ public class Server {
 
         javalin.delete("/db", clearHandler);
 
+        RegisterService registerService = new RegisterService(userDAO, authDAO);
+        RegisterHandler registerHandler = new RegisterHandler(registerService);
+        javalin.post("/user", registerHandler);
+
 
         LoginService loginService = new LoginService(userDAO, authDAO);
         LoginHandler loginHandler = new LoginHandler(loginService);
@@ -38,7 +54,7 @@ public class Server {
 
         LogoutService logoutService = new LogoutService(authDAO);
         LogoutHandler logoutHandler = new LogoutHandler(logoutService);
-        javalin.delete("/session", loginHandler);
+        javalin.delete("/session", logoutHandler);
 
         ListGamesService listGamesService = new ListGamesService(authDAO, gameDAO);
         ListGamesHandler listGamesHandler = new ListGamesHandler(listGamesService);
