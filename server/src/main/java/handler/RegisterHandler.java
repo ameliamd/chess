@@ -24,4 +24,3 @@ public class RegisterHandler implements Handler {
         ctx.result(serializer.toJson(result));
         }
     }
-}
