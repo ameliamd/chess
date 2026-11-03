@@ -29,6 +29,13 @@ public class SQLGameDAO implements GameDAO{
     }
     @Override
     public void clear() throws DataAccessException {
+        try(var conn = DatabaseManager.getConnection()){
+            try(var preparedStatement = conn.prepareStatement("TRUNCATE TABLE game")){
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
 
     }
 
