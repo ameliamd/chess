@@ -1,5 +1,6 @@
 package dataaccess;
 
+import model.AuthData;
 import model.GameData;
 
 import java.sql.SQLException;
@@ -46,13 +47,52 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public void createGame(GameData game) throws DataAccessException {
+        String statement = "INSERT INTO user (whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?)";
+
+        try (var conn = DatabaseManager.getConnection();
+             var preparedStatement = conn.prepareStatement(statement)){
+
+            preparedStatement.setString(1, game.whiteUsername());
+            preparedStatement.setString(2, game.blackUsername());
+            preparedStatement.setString(3, game.gameName());
+
+            var jsonGame = new com.google.gson.Gson().toJson(game.game());
+            preparedStatement.setString(4, jsonGame);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+
 
     }
 
     @Override
     public GameData getGame(int gameID) throws DataAccessException {
-        return null;
-    }
+        try (var conn = DatabaseManager.getConnection()){
+            var statement = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM game WHERE gameID=?";
+            try (var preparedStatement = conn.prepareStatement(statement)){
+                preparedStatement.setInt(1, gameID);
+                try (var rs = preparedStatement.executeQuery()){
+                    if (rs.next()){
+                        var jsonString = rs.getString("game");
+                        var chessGame = new com.google.gson.Gson().fromJson(jsonString, chess.ChessGame.class);
+                        return new GameData(
+                                rs.getInt("gameID"),
+                                rs.getString("whiteUsername"),
+                                rs.getString("blackUsername"),
+                                rs.getString("gameName"),
+                                chessGame
+
+                        );
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+        return null;    }
 
     @Override
     public void updateGame(GameData game) throws DataAccessException {
