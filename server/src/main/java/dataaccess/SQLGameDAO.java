@@ -42,12 +42,34 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public Collection<GameData> listGames() throws DataAccessException {
-        return List.of();
+        var result = new java.util.ArrayList<GameData>();
+        try (var conn = DatabaseManager.getConnection()) {
+            var statement = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM game";
+            try (var preparedStatement  = conn.prepareStatement(statement)){
+                try (var rs = preparedStatement.executeQuery()) {
+                    while (rs.next()) {
+                        var jsonString = rs.getString("game");
+                        var chessGame = new com.google.gson.Gson().fromJson(jsonString, chess.ChessGame.class);
+
+                        result.add(new GameData(
+                                rs.getInt("gameID"),
+                                rs.getString("whiteUsername"),
+                                rs.getString("blackUsername"),
+                                rs.getString("gameName"),
+                                chessGame
+                        ));
+                    }
+                }
+            }
+            } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+        return result;
     }
 
     @Override
     public void createGame(GameData game) throws DataAccessException {
-        String statement = "INSERT INTO user (whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?)";
+        String statement = "INSERT INTO game (whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?)";
 
         try (var conn = DatabaseManager.getConnection();
              var preparedStatement = conn.prepareStatement(statement)){
@@ -96,6 +118,20 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public void updateGame(GameData game) throws DataAccessException {
+        String statement = "UPDATE game SET whiteUsername = ?, blackUsername = ?, gameName=?, game=? WHERE gameID=?";
+        try (var conn = DatabaseManager.getConnection();
+             var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.setString(1, game.whiteUsername());
+            preparedStatement.setString(2, game.blackUsername());
+            preparedStatement.setString(3, game.gameName());
+
+            var jsonGame = new com.google.gson.Gson().toJson(game.game());
+            preparedStatement.setString(4, jsonGame);
+            preparedStatement.setInt(5, game.gameID());
+            preparedStatement.executeUpdate();
+        } catch(SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
 
     }
 }
