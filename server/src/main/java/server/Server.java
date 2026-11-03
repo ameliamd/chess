@@ -33,9 +33,18 @@ public class Server {
     public int run(int desiredPort) {
         javalin.start(desiredPort);
 
-        UserDAO userDAO = new MemoryUserDAO();
-        GameDAO gameDAO = new MemoryGameDAO();
-        AuthDAO authDAO = new MemoryAuthDAO();
+        UserDAO userDAO;
+        GameDAO gameDAO;
+        AuthDAO authDAO;
+
+        try {
+            userDAO = new SQLUserDAO();
+            gameDAO = new SQLGameDAO();
+            authDAO = new SQLAuthDAO();
+        } catch (DataAccessException e){
+            System.out.printf("Unable to start server: %s%n", e.getMessage());
+            return 0;
+        }
 
         ClearService clearService = new ClearService(userDAO, gameDAO, authDAO);
         ClearHandler clearHandler = new ClearHandler(clearService);
