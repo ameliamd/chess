@@ -13,9 +13,12 @@ public class LogoutServiceTest {
     private RegisterService registerService;
 
     @BeforeEach
-    public void setup(){
-        userDAO = new MemoryUserDAO();
-        authDAO = new MemoryAuthDAO();
+    public void setup() throws DataAccessException{
+        userDAO = new SQLUserDAO();
+        authDAO = new SQLAuthDAO();
+
+        userDAO.clear();
+        authDAO.clear();
         logoutService = new LogoutService(authDAO);
         registerService = new RegisterService(userDAO, authDAO);
     }
@@ -27,6 +30,7 @@ public class LogoutServiceTest {
         AuthData authData = registerService.register(testUser);
 
         logoutService.logout(authData.authToken());
+        Assertions.assertNull(authDAO.getAuth(authData.authToken()));
     }
 
     @Test

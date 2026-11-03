@@ -13,9 +13,13 @@ public class LoginServiceTest {
     private RegisterService registerService;
 
     @BeforeEach
-    public void setup(){
-        userDAO = new MemoryUserDAO();
-        authDAO = new MemoryAuthDAO();
+    public void setup() throws DataAccessException{
+        userDAO = new SQLUserDAO();
+        authDAO = new SQLAuthDAO();
+
+        userDAO.clear();
+        authDAO.clear();
+
         loginService = new LoginService(userDAO, authDAO);
         registerService = new RegisterService(userDAO, authDAO);
     }

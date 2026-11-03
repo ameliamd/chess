@@ -15,13 +15,19 @@ public class CreateGameServiceTest {
     private RegisterService registerService;
 
     @BeforeEach
-    public void setup(){
-        userDAO = new MemoryUserDAO();
-        gameDAO = new MemoryGameDAO();
-        authDAO = new MemoryAuthDAO();
+    public void setup() throws DataAccessException{
+        userDAO = new SQLUserDAO();
+        gameDAO = new SQLGameDAO();
+        authDAO = new SQLAuthDAO();
+
+        userDAO.clear();
+        gameDAO.clear();
+        authDAO.clear();
+
         createGameService = new CreateGameService(authDAO, gameDAO);
         registerService = new RegisterService(userDAO, authDAO);
     }
+
 
     @Test
     @DisplayName("Positive Create Game Test")

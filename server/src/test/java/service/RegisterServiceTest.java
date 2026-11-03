@@ -12,9 +12,12 @@ public class RegisterServiceTest {
     private RegisterService registerService;
 
     @BeforeEach
-    public void setup(){
-        userDAO = new MemoryUserDAO();
-        authDAO = new MemoryAuthDAO();
+    public void setup() throws DataAccessException{
+        userDAO = new SQLUserDAO();
+        authDAO = new SQLAuthDAO();
+
+        userDAO.clear();
+        authDAO.clear();
         registerService = new RegisterService(userDAO, authDAO);
     }
 
