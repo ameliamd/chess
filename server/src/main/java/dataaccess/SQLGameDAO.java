@@ -68,7 +68,7 @@ public class SQLGameDAO implements GameDAO{
     }
 
     @Override
-    public void createGame(GameData game) throws DataAccessException {
+    public int createGame(GameData game) throws DataAccessException {
         String statement = "INSERT INTO game (whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?)";
 
         try (var conn = DatabaseManager.getConnection();
@@ -87,6 +87,7 @@ public class SQLGameDAO implements GameDAO{
             throw new DataAccessException(e.getMessage());
         }
 
+        return 0;
 
     }
 
