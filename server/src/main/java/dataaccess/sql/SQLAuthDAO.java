@@ -1,11 +1,13 @@
-package dataaccess;
+package dataaccess.sql;
 
+import dataaccess.AuthDAO;
+import dataaccess.DataAccessException;
+import dataaccess.DatabaseManager;
 import model.AuthData;
-import model.UserData;
 
 import java.sql.SQLException;
 
-public class SQLAuthDAO implements AuthDAO{
+public class SQLAuthDAO implements AuthDAO {
     public SQLAuthDAO() throws DataAccessException {
         String createTable = """
                 CREATE TABLE IF NOT EXISTS auth (

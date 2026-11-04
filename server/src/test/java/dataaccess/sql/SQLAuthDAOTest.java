@@ -4,8 +4,6 @@ import dataaccess.*;
 import model.AuthData;
 import org.junit.jupiter.api.*;
 
-import javax.xml.crypto.Data;
-
 public class SQLAuthDAOTest {
     private static AuthDAO authDAO;
 

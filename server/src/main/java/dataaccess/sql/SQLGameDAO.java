@@ -1,14 +1,15 @@
-package dataaccess;
+package dataaccess.sql;
 
-import model.AuthData;
+import dataaccess.DataAccessException;
+import dataaccess.DatabaseManager;
+import dataaccess.GameDAO;
 import model.GameData;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
-import java.util.List;
 
-public class SQLGameDAO implements GameDAO{
+public class SQLGameDAO implements GameDAO {
     public SQLGameDAO() throws DataAccessException {
         String createTable = """
                 CREATE TABLE IF NOT EXISTS chess_game (

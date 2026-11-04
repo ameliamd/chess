@@ -2,10 +2,14 @@ package server;
 
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
+import dataaccess.sql.SQLAuthDAO;
+import dataaccess.sql.SQLGameDAO;
+import dataaccess.sql.SQLUserDAO;
 import handler.*;
 import io.javalin.*;
 import service.*;
 import dataaccess.*;
+import dataaccess.sql.*;
 
 public class Server {
 

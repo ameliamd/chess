@@ -1,9 +1,12 @@
-package dataaccess;
+package dataaccess.sql;
 
+import dataaccess.DataAccessException;
+import dataaccess.DatabaseManager;
+import dataaccess.UserDAO;
 import model.UserData;
 import java.sql.SQLException;
 
-public class SQLUserDAO implements UserDAO{
+public class SQLUserDAO implements UserDAO {
     public SQLUserDAO() throws DataAccessException {
         String createTable = """
                 CREATE TABLE IF NOT EXISTS user (
