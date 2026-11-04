@@ -24,8 +24,13 @@ public class Server {
             } else if(ex.getMessage().contains("unauthorized")) {
                 ctx.status(401);
             }
+            String message = ex.getMessage();
+            if(!message.startsWith("Error: ")){
+                message = "Error: " + message;
+            }
+
             var serializer = new com.google.gson.Gson();
-            ctx.result(serializer.toJson(java.util.Map.of("message", "Error: " + ex.getMessage())));
+            ctx.result(serializer.toJson(java.util.Map.of("message",  message)));
                 });
 
     }

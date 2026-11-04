@@ -18,18 +18,20 @@ public class CreateGameService {
     }
 
     public int createGame(String authToken, CreateGameRequest request) throws DataAccessException{
+        if(request == null || request.gameName() == null || request.gameName().isEmpty()){
+            throw new DataAccessException("Error: bad request");
+        }
+
         if(authDAO.getAuth(authToken) == null){
-            throw new DataAccessException("unauthorized");
+            throw new DataAccessException("Error: unauthorized");
         }
-        if(request.gameName() == null || request.gameName().isEmpty()){
-            throw new DataAccessException("bad request");
-        }
-        int newGameID = Math.abs(new Random().nextInt());
-        GameData newGame = new GameData(newGameID, null, null, request.gameName(), new ChessGame());
 
-        gameDAO.createGame(newGame);
+        GameData newGame = new GameData(0, null, null, request.gameName(), new ChessGame());
 
-        return newGameID;
+        int actualGameID = gameDAO.createGame(newGame);
+
+        return actualGameID;
+
     }
 
 }

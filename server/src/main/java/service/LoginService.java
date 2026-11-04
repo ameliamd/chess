@@ -17,14 +17,14 @@ public class LoginService {
     }
 
     public AuthData login(UserData request) throws DataAccessException{
-        if(request.username() == null || request.password() == null){
-            throw new DataAccessException("bad request");
+        if(request == null || request.username() == null || request.password() == null){
+            throw new DataAccessException("Error: bad request");
         }
 
         UserData user = userDAO.getUser(request.username());
 
-        if(user == null || !user.password().equals(request.password())){
-            throw new DataAccessException("unauthorized");
+        if(user == null || !org.mindrot.jbcrypt.BCrypt.checkpw(request.password(), user.password())){
+            throw new DataAccessException("Error: unauthorized");
         }
 
         String token = UUID.randomUUID().toString();

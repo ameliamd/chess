@@ -57,6 +57,9 @@ public class SQLUserDAO implements UserDAO{
 
     @Override
     public void createUser(UserData user) throws DataAccessException {
+        if(getUser(user.username()) != null){
+            throw new DataAccessException("Error: already taken");
+        }
         String statement = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
         String hashedPassword = org.mindrot.jbcrypt.BCrypt.hashpw(user.password(), org.mindrot.jbcrypt.BCrypt.gensalt());
 
