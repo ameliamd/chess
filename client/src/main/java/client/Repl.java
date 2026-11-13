@@ -28,9 +28,9 @@ public class Repl {
         System.out.println("Welcome to Chess. Type Help to get started.");
         while (!state.equals(State.QUIT)){
             if(state == State.SIGNEDOUT){
-                System.out.print("LOGGED OUT");
+                System.out.print("[LOGGED OUT] >>> ");
             } else {
-                System.out.print("LOGGED IN");
+                System.out.print("[LOGGED IN] >>> ");
             }
 
             String input = scanner.nextLine();
@@ -51,7 +51,7 @@ public class Repl {
 
 
     private void handlePreLogin(String input) throws Exception{
-        var tokens = input.toLowerCase().split(" ");
+        var tokens = input.trim().toLowerCase().split(" ");
         var cmd = (tokens.length > 0) ? tokens[0] : "help";
         var params = Arrays.copyOfRange(tokens, 1, tokens.length);
 
@@ -94,7 +94,7 @@ public class Repl {
     }
 
     private void handlePostLogin(String input) throws Exception{
-        var tokens = input.toLowerCase().split(" ");
+        var tokens = input.trim().toLowerCase().split(" ");
         var cmd =  (tokens.length > 0) ? tokens[0] : "help";
         var params = Arrays.copyOfRange(tokens, 1, tokens.length);
 
