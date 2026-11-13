@@ -43,10 +43,43 @@ public class Repl {
                     handlePostLogin(input);
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println(formatErrorMessage(e));
             }
         }
         System.out.println("Thanks for playing!!!!");
+
+    }
+
+    private String formatErrorMessage(Exception e){
+        String raw = (e.getMessage() == null) ? "" : e.getMessage();
+        String lower = raw.toLowerCase();
+        if (lower.contains("400") || lower.contains("bad request")){
+            return "Invalid request. Please check your input and try again.";
+        }
+        if (lower.contains("401") || lower.contains("unauthorized")){
+            return "Invalid username or password.";
+        }
+
+        if (lower.contains("403") || lower.contains("already taken")){
+            return "That username or game spot is already taken.";
+        }
+
+        if (lower.contains("404") || lower.contains("not found")){
+            return "Requested resource was not found.";
+        }
+        if (lower.contains("500") || lower.contains("internal server error")){
+            return "Server error. Please try again later.";
+        }
+
+        if (raw.contains("{") || raw.contains("}")){
+            return "Request failed. Please try again.";
+        }
+
+        if (raw.isBlank()){
+            return "Something went wrong. Please try again.";
+        }
+        return raw;
+
 
     }
 
@@ -127,6 +160,9 @@ public class Repl {
             case "play":
                 if(params.length == 2){
                     try{
+                        if(gamesList == null){
+                            gamesList = facade.listGames(authToken);
+                        }
                         int index = Integer.parseInt(params[0]) - 1;
                         int gameID = gamesList[index].gameID();
                         String color = params[1].toUpperCase();
@@ -142,11 +178,29 @@ public class Repl {
                 }
                 break;
             case "observe":
-                System.out.println("Observing game...");
+                if(params.length == 1){
+                    try{
+                        if(gamesList == null){
+                            gamesList = facade.listGames(authToken);
+                        }
+                        int index = Integer.parseInt(params[0]) -1;
+                        if(gamesList == null || index < 0 || index >= gamesList.length){
+                            System.out.println("Invalid game number. Run 'List' to see available games.");
+                            break;
+                        }
+                        System.out.println("Observing game...");
+                        DrawBoard.draw("WHITE");
+                    } catch (NumberFormatException e){
+                        System.out.println("Expected a valid game number: <ID>");
+                    }
+                    }else {
+                    System.out.println("Expected: <ID>");
+                }
                 break;
             case "logout":
                 facade.logout(authToken);
                 this.authToken = null;
+                this.gamesList = null;
                 System.out.println("Logged out successfully!");
                 state = State.SIGNEDOUT;
                 break;
