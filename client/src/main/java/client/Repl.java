@@ -2,6 +2,7 @@ package client;
 
 import model.AuthData;
 import model.GameData;
+import ui.DrawBoard;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -124,7 +125,21 @@ public class Repl {
                 }
                 break;
             case "play":
-                System.out.println("Joining game...");
+                if(params.length == 2){
+                    try{
+                        int index = Integer.parseInt(params[0]) - 1;
+                        int gameID = gamesList[index].gameID();
+                        String color = params[1].toUpperCase();
+
+                        facade.joinGame(authToken, color, gameID);
+                        System.out.println("Joined game successfully!!");
+                        DrawBoard.draw(color);
+                    } catch (Exception e) {
+                        System.out.println("Error joining game. Did you type a valid number and color?");
+                    }
+                }else{
+                    System.out.println("Expected: <ID> [WHITE|BLACK]");
+                }
                 break;
             case "observe":
                 System.out.println("Observing game...");
