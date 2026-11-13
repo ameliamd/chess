@@ -4,6 +4,7 @@ import model.AuthData;
 import org.junit.jupiter.api.*;
 import server.Server;
 
+//final commit for phase 5
 public class ServerFacadeTests {
 
     private static Server server;
