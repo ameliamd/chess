@@ -1,5 +1,8 @@
 package client;
 
+import model.AuthData;
+import model.GameData;
+
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
@@ -14,6 +17,8 @@ public class Repl {
     private State state = State.SIGNEDOUT;
     private final Scanner scanner = new Scanner(System.in);
     private final ServerFacade facade;
+    private String authToken = null;
+    private GameData[] gamesList = null;
 
     public Repl(String serverUrl){
         this.facade = new ServerFacade(serverUrl);
@@ -42,28 +47,35 @@ public class Repl {
         }
         System.out.println("Thanks for playing!!!!");
 
-        if(state == State.SIGNEDOUT){
-            System.out.print("LOGGED OUT");
-        } else {
-            System.out.print("LOGGED IN");
-        }
     }
 
 
-    private void handlePreLogin(String input){
+    private void handlePreLogin(String input) throws Exception{
         var tokens = input.toLowerCase().split(" ");
         var cmd = (tokens.length > 0) ? tokens[0] : "help";
         var params = Arrays.copyOfRange(tokens, 1, tokens.length);
 
         switch(cmd) {
             case "register":
-                System.out.println("Registered successfully! (Not really yet");
-                state = State.SIGNEDIN;
+                if(params.length == 3){
+                    AuthData auth = facade.register(params[0], params[1], params[2]);
+                    this.authToken = auth.authToken();
+                    System.out.println("Registered and logged in successfully!");
+                    state = State.SIGNEDIN;
+                } else{
+                    System.out.println("Expected: <USERNAME> <PASSWORD> <EMAIL>");
+                }
                 break;
 
             case "login":
-                System.out.println("Logged in successfully! (Not really yet)");
-                state = State.SIGNEDIN;
+                if(params.length == 2){
+                    AuthData auth = facade.login(params[0], params[1]);
+                    this.authToken = auth.authToken();
+                    System.out.println("Logged in successfully!");
+                    state = State.SIGNEDIN;
+                } else{
+                    System.out.println("Expected: <USERNAME> <PASSWORD>");
+                }
                 break;
 
             case "quit":
@@ -81,17 +93,35 @@ public class Repl {
 
     }
 
-    private void handlePostLogin(String input) {
+    private void handlePostLogin(String input) throws Exception{
         var tokens = input.toLowerCase().split(" ");
         var cmd =  (tokens.length > 0) ? tokens[0] : "help";
         var params = Arrays.copyOfRange(tokens, 1, tokens.length);
 
         switch (cmd) {
             case "create":
-                System.out.println("Creating game...");
+                if(params.length == 1){
+                    int gameID = facade.createGame(authToken, params[0]);
+                    System.out.println("Created game '" + params[0] + "' with ID: " + gameID);
+                }else{
+                    System.out.println("Expected: <NAME>");
+                }
                 break;
             case "list":
-                System.out.println("Listing games...");
+                gamesList = facade.listGames(authToken);
+                if(gamesList.length == 0){
+                    System.out.println("No active games.");
+                }else {
+                    System.out.println("Active Games:");
+                    for (int i = 0; i < gamesList.length; i++) {
+                        GameData game = gamesList[i];
+                        System.out.printf("%d. %s (White: %s, Black: %s) \n",
+                                i + 1,
+                                game.gameName(),
+                                game.whiteUsername() == null ? "None" : game.whiteUsername(),
+                                game.blackUsername() == null ? "None" : game.blackUsername());
+                    }
+                }
                 break;
             case "play":
                 System.out.println("Joining game...");
@@ -100,6 +130,8 @@ public class Repl {
                 System.out.println("Observing game...");
                 break;
             case "logout":
+                facade.logout(authToken);
+                this.authToken = null;
                 System.out.println("Logged out successfully!");
                 state = State.SIGNEDOUT;
                 break;
