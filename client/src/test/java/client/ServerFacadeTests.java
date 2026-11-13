@@ -99,5 +99,18 @@ public class ServerFacadeTests {
         Assertions.assertThrows(Exception.class, () -> facade.joinGame(authData.authToken(), "WHITE", 9999));
     }
 
+    @Test
+    void registerSuccess() throws Exception{
+        AuthData authData = facade.register("player1", "password", "p1@email.com");
+        Assertions.assertNotNull(authData.authToken());
+        Assertions.assertEquals("player1", authData.username());
+    }
+
+    @Test
+    void registerFailureDuplicateUser() throws Exception{
+        facade.register("player1", "password", "p1@email.com");
+        Assertions.assertThrows(Exception.class, () -> facade.register("player1", "password", "p1@email.com"));
+    }
+
 
 }
