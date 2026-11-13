@@ -1,9 +1,9 @@
 package client;
 
 public class ServerFacade {
-    private final int port;
+    private final String serverUrl;
 
-    public ServerFacade(int port){
-        this.port = port;
+    public ServerFacade(String url){
+        this.serverUrl = url;
     }
 }

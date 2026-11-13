@@ -13,8 +13,10 @@ public class Repl {
 
     private State state = State.SIGNEDOUT;
     private final Scanner scanner = new Scanner(System.in);
+    private final ServerFacade facade;
 
-    public Repl(){
+    public Repl(String serverUrl){
+        this.facade = new ServerFacade(serverUrl);
     }
 
     public void run(){
